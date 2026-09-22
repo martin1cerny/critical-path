@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="utf-8" />
+  <title>CPM — Nástroj pro analýzu kritické cesty</title>
+  <!--
+    GitHub Pages single-page-app fallback.
+    GitHub serves this file for any path that has no matching file. It redirects
+    to the app's index.html, encoding the requested route in the query string;
+    index.html then restores the real URL before the router loads.
+
+    pathSegmentsToKeep = number of leading path segments that belong to the host
+    prefix rather than the app route. For a project site at
+    https://user.github.io/critical-path/ that is 1 (the repo name). Use 0 if the
+    site is served from a domain root (user/org site or custom domain).
+  -->
+  <script>
+    var pathSegmentsToKeep = 1;
+    var l = window.location;
+    l.replace(
+      l.protocol + "//" + l.hostname + (l.port ? ":" + l.port : "") +
+      l.pathname.split("/").slice(0, 1 + pathSegmentsToKeep).join("/") + "/?/" +
+      l.pathname.slice(1).split("/").slice(pathSegmentsToKeep).join("/").replace(/&/g, "~and~") +
+      (l.search ? "&" + l.search.slice(1).replace(/&/g, "~and~") : "") +
+      l.hash
+    );
+  </script>
+</head>
+<body></body>
+</html>

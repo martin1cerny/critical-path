@@ -39,8 +39,28 @@
       to { max-width: 8ch; }
     }
   </style>
-  <script src="/i18n-cs.js"></script>
-  <script type="module" crossorigin src="/assets/index-BzlwJn9O.js"></script>
+  <!-- Anchor all relative URLs (the scripts below) to the app root directory.
+       On GitHub Pages index.html is always loaded at the site root, so the
+       current pathname's directory IS the app root. This must run before the
+       deep-link restore rewrites the URL, so assets keep resolving correctly
+       for nested routes. Works at the domain root and at any subpath. -->
+  <script>
+    document.write('<base href="' + location.pathname.replace(/[^/]*$/, "") + '">');
+  </script>
+  <!-- GitHub Pages SPA deep-link restore: 404.html redirects /base/foo -> /base/?/foo,
+       and this rewrites the address back to /base/foo before the app router loads. -->
+  <script>
+    (function (l) {
+      if (l.search[1] === "/") {
+        var decoded = l.search.slice(1).split("&").map(function (s) {
+          return s.replace(/~and~/g, "&");
+        }).join("?");
+        window.history.replaceState(null, null, l.pathname.slice(0, -1) + decoded + l.hash);
+      }
+    })(window.location);
+  </script>
+  <script src="i18n-cs.js"></script>
+  <script type="module" crossorigin src="assets/index-BzlwJn9O.js"></script>
 </head>
 <body>
   <div id="root"></div>

@@ -9,6 +9,31 @@
  * exported .xlsx file is generated in JS from English literals and is not
  * covered here.
  */
+
+/*
+ * Base-path auto-detection for hosting under a subdirectory (e.g. GitHub Pages
+ * project sites like https://user.github.io/critical-path/). This runs as a
+ * classic script BEFORE the deferred app module, and sets window.__CPM_BASE__,
+ * which the patched React Router reads as its `basename`. Derived from this
+ * script's own URL, so it works at the domain root and at any subpath with no
+ * hardcoding.
+ */
+(function () {
+  try {
+    var el = document.currentScript;
+    var src = el && el.src;
+    if (src) {
+      var dir = new URL(".", src).pathname; // e.g. "/critical-path/" or "/"
+      var base = dir.replace(/\/+$/, ""); // React Router basename: no trailing slash
+      window.__CPM_BASE__ = base || "/";
+    } else {
+      window.__CPM_BASE__ = "/";
+    }
+  } catch (e) {
+    window.__CPM_BASE__ = "/";
+  }
+})();
+
 (function () {
   "use strict";
 

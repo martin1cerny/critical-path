@@ -11,10 +11,12 @@ source code is not available. This copy therefore contains exactly what the site
 serves, plus a translation layer:
 
 ```
-index.html                      – app shell (edited: lang=cs, Czech <title>/meta, loads i18n-cs.js, analytics removed)
-i18n-cs.js                       – Czech translation overlay (added by us)
-assets/index-BzlwJn9O.js         – the app bundle (patched: Ethereum sign-in disabled; otherwise original)
+index.html                      – app shell (edited: lang=cs, Czech <title>/meta, loads i18n-cs.js, analytics removed, relative paths + <base>)
+i18n-cs.js                       – Czech translation overlay + base-path auto-detection
+assets/index-BzlwJn9O.js         – the app bundle (patched: Ethereum sign-in disabled + subpath-aware router basename; otherwise original)
 assets/exceljs.min-Do-cdZbn.js   – Excel-export library, loaded on demand (unchanged, original)
+404.html                         – GitHub Pages SPA fallback (deep-link support)
+.nojekyll                        – tells GitHub Pages to skip Jekyll processing
 serve.py                         – tiny local web server with SPA routing (for testing)
 ```
 
@@ -60,10 +62,33 @@ It handles:
 python serve.py            # then open http://127.0.0.1:8000/
 ```
 
-Any static file host works too (Netlify, GitHub Pages, S3, nginx …). Because the
-asset paths are absolute (`/assets/...`), host it at a domain root, and configure
-an SPA fallback (serve `index.html` for unknown paths) so deep links like
-`/projects` work.
+## Hosting (root or subpath)
+
+All asset references are relative and an injected `<base>` tag anchors them to
+the app's own directory, so the same files work both at a domain root and under
+a subdirectory with **no rebuild**:
+
+- The React Router `basename` is set at runtime from `window.__CPM_BASE__`, which
+  `i18n-cs.js` derives from its own script URL.
+- `404.html` provides the single-page-app fallback so deep links / refreshes work
+  on static hosts that don't rewrite unknown paths to `index.html`.
+
+### GitHub Pages (project site)
+
+This repo is ready to serve as-is:
+
+1. Push to `main` (already done).
+2. Repo **Settings → Pages → Build and deployment → Source: Deploy from a
+   branch**, branch **`main`**, folder **`/ (root)`**. Save.
+3. The site appears at `https://<user>.github.io/<repo>/` (e.g.
+   `https://martin1cerny.github.io/critical-path/`).
+
+`404.html` uses `pathSegmentsToKeep = 1`, which matches a project site served
+under one path segment (`/critical-path/`). If you instead serve from a domain
+root (a user/org site or a custom domain), set `pathSegmentsToKeep = 0` in
+`404.html`.
+
+Any other static host (Netlify, S3, nginx …) works too — at a root or a subpath.
 
 ## Known limitations
 
