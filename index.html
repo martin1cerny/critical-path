@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CPM — Nástroj pro analýzu kritické cesty</title>
+  <meta name="description" content="Bezplatný nástroj pro metodu kritické cesty (CPM) běžící v prohlížeči. Sestavujte harmonogramy projektů, vizualizujte síťové a Ganttovy diagramy, analyzujte omezení zdrojů a exportujte do Excelu — bez registrace." />
+  <meta name="keywords" content="metoda kritické cesty, CPM, plánování projektů, Ganttův diagram, síťový diagram, projektové řízení, plánování zdrojů" />
+  <meta property="og:title" content="CPM — Nástroj pro analýzu kritické cesty" />
+  <meta property="og:description" content="Bezplatné plánování projektů v prohlížeči s analýzou CPM, Ganttovými diagramy, síťovými diagramy a exportem do Excelu." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://cpm.dappli.org" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      background-color: #f8fafc;
+      color: #1e293b;
+    }
+    #root { min-height: 100vh; }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes dotFadeIn {
+      from { opacity: 0; transform: scale(0.3); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    @keyframes typeIn {
+      from { max-width: 0; }
+      to { max-width: 8ch; }
+    }
+  </style>
+  <script src="/i18n-cs.js"></script>
+  <script type="module" crossorigin src="/assets/index-BzlwJn9O.js"></script>
+</head>
+<body>
+  <div id="root"></div>
+</body>
+</html>
