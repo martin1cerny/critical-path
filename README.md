@@ -11,14 +11,42 @@ source code is not available. This copy therefore contains exactly what the site
 serves, plus a translation layer:
 
 ```
-index.html                      – app shell (edited: lang=cs, Czech <title>/meta, loads i18n-cs.js, analytics removed, relative paths + <base>)
+index.html                      – app shell (edited: lang=cs, Czech <title>/meta, loads the helper scripts, analytics removed, relative paths + <base>)
 i18n-cs.js                       – Czech translation overlay + base-path auto-detection
+drawio-import.js                 – "Importovat draw.io" button: import activities/dependencies from a draw.io diagram
 assets/index-BzlwJn9O.js         – the app bundle (patched: Ethereum sign-in disabled + subpath-aware router basename; otherwise original)
 assets/exceljs.min-Do-cdZbn.js   – Excel-export library, loaded on demand (unchanged, original)
 404.html                         – GitHub Pages SPA fallback (deep-link support)
 .nojekyll                        – tells GitHub Pages to skip Jekyll processing
 serve.py                         – tiny local web server with SPA routing (for testing)
 ```
+
+## Import from draw.io
+
+The Projects page has an **"Importovat draw.io"** button (added by
+`drawio-import.js`) that turns a [draw.io / diagrams.net](https://app.diagrams.net)
+network diagram into a project.
+
+Each **node** becomes an activity; its text is read as three lines:
+
+```
+ID: A
+Aktivita: Projektová dokumentace a povolení   ← 2nd line: activity name
+Odhad: 10 dní                                  ← 3rd line: must contain the number of days
+```
+
+- The **name** comes from the 2nd line (a leading label like `Aktivita:` /
+  `Activity:` / `Name:` is stripped automatically).
+- The **duration** is the first number on the 3rd line.
+- A node is only imported if its 3rd line contains a number, so legend/notes
+  text boxes (draw.io "text" shapes) are ignored.
+
+Each **edge** (`source → target`) becomes a dependency (predecessor → successor).
+
+The importer writes a new project straight into the app's IndexedDB and opens
+it, with the critical path and schedule computed by the app. Export the diagram
+from draw.io **uncompressed** (`.drawio` or `.xml`); compressed diagrams are
+detected and reported with a hint.
 
 ## Removed features
 
